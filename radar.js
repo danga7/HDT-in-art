@@ -58,10 +58,16 @@
   }
   function slug(t) { return String(t).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""); }
 
+  /* TEMP: titles hidden from every chart. Empty this array to restore. */
+  const HIDDEN_TITLES = ["holly+"];
+
   function processRows(raw) {
     let cursor = 0;
     cases = raw
       .filter(function (r) { return pick(r, "Work"); })
+      .filter(function (r) {
+        return HIDDEN_TITLES.indexOf(String(pick(r, "Work")).trim().toLowerCase()) === -1;
+      })
       .map(function (r) {
         const title = String(pick(r, "Work")).trim();
         const yr = String(pick(r, "Year")).trim();
